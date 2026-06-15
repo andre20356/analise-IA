@@ -1,0 +1,6 @@
+{
+  "name": "AI Trading Assistant",
+  "description": "Simulador de trading inteligente conectado à Binance que utiliza IA Gemini para predição e análise de mercado em tempo real.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
