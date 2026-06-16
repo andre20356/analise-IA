@@ -38,9 +38,34 @@ async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutM
   }
 }
 
+let serverTimeOffsetMs = 0;
+let lastSyncedTime = 0;
+
+export async function syncClockOffset() {
+  const now = Date.now();
+  if (now - lastSyncedTime < 300000) { // Keep cache for 5 minutes
+    return serverTimeOffsetMs;
+  }
+  try {
+    const res = await fetch("https://api.bybit.com/v5/market/time");
+    if (res.ok) {
+      const data: any = await res.json();
+      if (data.retCode === 0 && data.result) {
+        const bybitMs = data.result.timeNano ? Math.floor(parseFloat(data.result.timeNano) / 1000000) : (parseInt(data.result.timeSecond) * 1000);
+        serverTimeOffsetMs = bybitMs - Date.now();
+        lastSyncedTime = Date.now();
+        console.log(`[ExchangeService] Clocks synchronized with Bybit. Offset: ${serverTimeOffsetMs}ms`);
+      }
+    }
+  } catch (err: any) {
+    console.warn("[ExchangeService] Failed to sync clock offset from Bybit:", err.message);
+  }
+  return serverTimeOffsetMs;
+}
+
 // Generate authentication headers for Bybit V5
 function getBybitHeaders(apiKey: string, secretKey: string, queryString: string, bodyString = "") {
-  const timestamp = Date.now().toString();
+  const timestamp = (Date.now() + serverTimeOffsetMs).toString();
   const recvWindow = "5000";
   const signPayload = timestamp + apiKey + recvWindow + queryString + bodyString;
   const signature = crypto
@@ -93,11 +118,44 @@ export function getSavedCredentials() {
   return { apiKey: "", secretKey: "", config: dbConfig };
 }
 
+async function queryBybitBalance(apiKey: string, secretKey: string, accountType: string): Promise<number | null> {
+  try {
+    const queryString = `accountType=${accountType}`;
+    const headers = getBybitHeaders(apiKey, secretKey, queryString);
+    const res = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
+      method: "GET",
+      headers
+    }, 10000); // 10s timeout
+
+    if (!res.ok) {
+      if (res.status === 451 || res.status === 403 || res.status === 401) {
+        return -451; // Special signal for regional block
+      }
+      return null;
+    }
+
+    const data: any = await res.json();
+    if (data.retCode !== 0) {
+      return null;
+    }
+
+    const list = data.result?.list || [];
+    if (list.length > 0) {
+      const totalWalletBalance = parseFloat(list[0].totalWalletBalance || "0");
+      const totalEquity = parseFloat(list[0].totalEquity || "0");
+      return totalEquity > 0 ? totalEquity : totalWalletBalance;
+    }
+  } catch (err: any) {
+    console.warn(`[ExchangeService] queryBybitBalance error for ${accountType}:`, err.message);
+  }
+  return null;
+}
+
 export class ExchangeService {
   /**
-   * Fetches the actual wallet balance.
-   * If USE_REAL_EXCHANGE is false or call fails, falls back to the virtual balance in DB.
-   */
+    * Fetches the actual wallet balance.
+    * If USE_REAL_EXCHANGE is false or call fails, falls back to the virtual balance in DB.
+    */
   static async fetchBalance(): Promise<{ balance: number; currency: string; isReal: boolean }> {
     const isRealExchange = process.env.USE_REAL_EXCHANGE === "true";
     const { apiKey, secretKey, config } = getSavedCredentials();
@@ -113,28 +171,36 @@ export class ExchangeService {
     }
 
     try {
-      const queryString = "accountType=UNIFIED";
-      const headers = getBybitHeaders(apiKey, secretKey, queryString);
-      const res = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
-        method: "GET",
-        headers
-      });
+      await syncClockOffset();
 
-      if (!res.ok) {
-        throw new Error(`Bybit HTTP error: ${res.status}`);
+      // Try UNIFIED first (margin accounts)
+      let balance = await queryBybitBalance(apiKey, secretKey, "UNIFIED");
+      
+      if (balance === -451) {
+        return { balance: fallbackBalance, currency: "USDT", isReal: false };
       }
 
-      const data: any = await res.json();
-      if (data.retCode !== 0) {
-        throw new Error(data.retMsg || "Bybit API returned non-zero retCode");
+      // If UNIFIED fails or empty, try CONTRACT (standard trade account)
+      if (balance === null || balance === 0) {
+        const contractBal = await queryBybitBalance(apiKey, secretKey, "CONTRACT");
+        if (contractBal === -451) return { balance: fallbackBalance, currency: "USDT", isReal: false };
+        if (contractBal !== null && contractBal > 0) {
+          balance = contractBal;
+        }
       }
 
-      const list = data.result?.list || [];
-      if (list.length > 0) {
-        const totalWalletBalance = parseFloat(list[0].totalWalletBalance || "0");
-        const totalEquity = parseFloat(list[0].totalEquity || "0");
+      // Try FUND (funding wallets)
+      if (balance === null || balance === 0) {
+        const fundBal = await queryBybitBalance(apiKey, secretKey, "FUND");
+        if (fundBal === -451) return { balance: fallbackBalance, currency: "USDT", isReal: false };
+        if (fundBal !== null && fundBal > 0) {
+          balance = fundBal;
+        }
+      }
+
+      if (balance !== null && balance >= 0) {
         return {
-          balance: totalEquity > 0 ? totalEquity : (totalWalletBalance > 0 ? totalWalletBalance : fallbackBalance),
+          balance: parseFloat(balance.toFixed(2)),
           currency: "USDT",
           isReal: true
         };
@@ -147,9 +213,9 @@ export class ExchangeService {
   }
 
   /**
-   * Specifically fetches the real balance from Bybit if credentials are configured.
-   * If they are missing or the request fails, returns null or simulated balance.
-   */
+    * Specifically fetches the real balance from Bybit if credentials are configured.
+    * If they are missing or the request fails, returns null or simulated balance.
+    */
   static async fetchRealBalance(): Promise<{ balance: number; currency: string } | null> {
     const { apiKey, secretKey, config } = getSavedCredentials();
     
@@ -165,46 +231,64 @@ export class ExchangeService {
     }
 
     try {
-      const queryString = "accountType=UNIFIED";
-      const headers = getBybitHeaders(apiKey, secretKey, queryString);
-      const res = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
-        method: "GET",
-        headers
-      }, 4000);
+      await syncClockOffset();
 
-      if (!res.ok) {
-        if (res.status === 451 || res.status === 403 || res.status === 401) {
-          // Regional limitations lock / Cloud IP lock - return active high fidelity mock balance
+      let balance = await queryBybitBalance(apiKey, secretKey, "UNIFIED");
+      
+      if (balance === -451) {
+        return {
+          balance: 12540.85,
+          currency: "USDT"
+        };
+      }
+
+      if (balance === null || balance === 0) {
+        const contractBal = await queryBybitBalance(apiKey, secretKey, "CONTRACT");
+        if (contractBal === -451) {
           return {
             balance: 12540.85,
             currency: "USDT"
           };
         }
-        throw new Error(`Bybit HTTP error: ${res.status}`);
+        if (contractBal !== null && contractBal > 0) {
+          balance = contractBal;
+        }
       }
 
-      const data: any = await res.json();
-      if (data.retCode !== 0) {
-        throw new Error(data.retMsg || "Bybit API returned non-zero retCode");
+      if (balance === null || balance === 0) {
+        const fundBal = await queryBybitBalance(apiKey, secretKey, "FUND");
+        if (fundBal === -451) {
+          return {
+            balance: 12540.85,
+            currency: "USDT"
+          };
+        }
+        if (fundBal !== null && fundBal > 0) {
+          balance = fundBal;
+        }
       }
 
-      const list = data.result?.list || [];
-      if (list.length > 0) {
-        const totalWalletBalance = parseFloat(list[0].totalWalletBalance || "0");
-        const totalEquity = parseFloat(list[0].totalEquity || "0");
-        const actualBalance = totalEquity > 0 ? totalEquity : (totalWalletBalance > 0 ? totalWalletBalance : 12540.85);
+      if (balance !== null && balance >= 0) {
         return {
-          balance: parseFloat(actualBalance.toFixed(2)),
+          balance: parseFloat(balance.toFixed(2)),
+          currency: "USDT"
+        };
+      }
+
+      if (config?.connectedStatus === "Conectado (Simulado)") {
+        return {
+          balance: 12540.85,
           currency: "USDT"
         };
       }
     } catch (err: any) {
       console.error("[ExchangeService] fetchRealBalance error:", err.message);
-      // Fallback for cloud environment connection test simulated mode representation
-      return {
-        balance: 12540.85,
-        currency: "USDT"
-      };
+      if (config?.connectedStatus === "Conectado (Simulado)") {
+        return {
+          balance: 12540.85,
+          currency: "USDT"
+        };
+      }
     }
     return null;
   }

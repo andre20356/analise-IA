@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import { ExchangeService } from "./exchangeService";
+import { ExchangeService, syncClockOffset } from "./exchangeService";
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -938,26 +938,60 @@ app.post("/api/config/test", async (req, res) => {
   addLog(state, "connection", "Testando credenciais com a API da Bybit...");
 
   try {
-    const timestamp = Date.now().toString();
-    const recvWindow = "5000";
-    const queryString = "accountType=UNIFIED";
-    const signature = crypto
-      .createHmac("sha256", secretKey)
-      .update(timestamp + apiKey + recvWindow + queryString)
-      .digest("hex");
+    // 1. Sync clock offset first!
+    const offset = await syncClockOffset();
+    
+    // We try to verify keys by fetching either UNIFIED, CONTRACT, or FUND wallet-balance
+    const accountTypesToTry = ["UNIFIED", "CONTRACT", "FUND"];
+    let finalBybitRes: any = null;
+    let finalJson: any = null;
+    let successTypeMsg = "";
 
-    const bybitRes = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
-      method: "GET",
-      headers: {
-        "X-BAPI-API-KEY": apiKey,
-        "X-BAPI-RECV-WINDOW": recvWindow,
-        "X-BAPI-SIGN": signature,
-        "X-BAPI-TIMESTAMP": timestamp,
-        "Content-Type": "application/json"
-      },
-    }, 2000);
+    for (const actType of accountTypesToTry) {
+      const timestamp = (Date.now() + offset).toString();
+      const recvWindow = "8000";
+      const queryString = `accountType=${actType}`;
+      const signature = crypto
+        .createHmac("sha256", secretKey)
+        .update(timestamp + apiKey + recvWindow + queryString)
+        .digest("hex");
 
-    if (bybitRes.status === 451 || bybitRes.status === 403) {
+      try {
+        const bybitRes = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
+          method: "GET",
+          headers: {
+            "X-BAPI-API-KEY": apiKey,
+            "X-BAPI-RECV-WINDOW": recvWindow,
+            "X-BAPI-SIGN": signature,
+            "X-BAPI-TIMESTAMP": timestamp,
+            "Content-Type": "application/json"
+          },
+        }, 10000); // 10s timeout is much more reliable
+
+        finalBybitRes = bybitRes;
+
+        if (bybitRes.status === 451 || bybitRes.status === 403) {
+          // Regional limitations lock / Cloud IP lock -> skip trying more, fall back to simulated
+          break;
+        }
+
+        const resJson: any = await bybitRes.json().catch(() => ({}));
+        finalJson = resJson;
+
+        if (bybitRes.ok && resJson.retCode === 0) {
+          successTypeMsg = `Tipo de Carteira: ${actType}`;
+          break;
+        }
+      } catch (actErr: any) {
+        console.warn(`[Connection Test] Failed trying accountType ${actType}:`, actErr.message);
+      }
+    }
+
+    if (!finalBybitRes) {
+      throw new Error("Timeout ao tentar conectar à Bybit");
+    }
+
+    if (finalBybitRes.status === 451 || finalBybitRes.status === 403) {
       state.config.connectedStatus = "Conectado (Simulado)";
       writeDB(state);
       addLog(state, "connection", "Conexão Virtual estabelecida devido a restrições regionais da Bybit no servidor em nuvem.");
@@ -968,18 +1002,16 @@ app.post("/api/config/test", async (req, res) => {
       });
     }
 
-    const resJson: any = await bybitRes.json().catch(() => ({}));
-
-    if (bybitRes.ok && resJson.retCode === 0) {
+    if (finalBybitRes.ok && finalJson && finalJson.retCode === 0) {
       state.config.connectedStatus = "Conectado";
       writeDB(state);
-      addLog(state, "connection", "Conexão real estabelecida com sucesso com a Bybit!");
+      addLog(state, "connection", `Conexão real estabelecida com sucesso com a Bybit! (${successTypeMsg})`);
       res.json({ success: true, status: "Conectado" });
     } else {
-      const errMsg = resJson.retMsg || "Credenciais Bybit inválidas ou restritas.";
+      const errMsg = finalJson?.retMsg || "Credenciais Bybit inválidas ou restritas.";
       
       // If it looks like a regional lock or is an error returned by regional eligibility blocks
-      if (errMsg.includes("restricted") || errMsg.includes("location") || errMsg.includes("Eligibility") || bybitRes.status === 418) {
+      if (errMsg.includes("restricted") || errMsg.includes("location") || errMsg.includes("Eligibility") || finalBybitRes.status === 418) {
         state.config.connectedStatus = "Conectado (Simulado)";
         writeDB(state);
         addLog(state, "connection", "Conexão Virtual estabelecida devido a restrições regionais da API Bybit na nuvem.");
@@ -990,7 +1022,7 @@ app.post("/api/config/test", async (req, res) => {
         });
       }
 
-      console.warn("Retorno de erro Bybit:", resJson);
+      console.warn("Retorno de erro Bybit:", finalJson);
       state.config.connectedStatus = "Erro de autenticação";
       writeDB(state);
       addLog(state, "connection", `Erro de Autenticação Bybit: ${errMsg}`);
