@@ -2,14 +2,13 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const DB_FILE = path.join(process.cwd(), "db.json");
 
 app.use(express.json());
@@ -2741,12 +2740,27 @@ app.post("/api/scan", async (req, res) => {
 
 // --- Express Static Server + Vite Middleware Setup ---
 const startServer = async () => {
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
+  const isProduction = process.env.NODE_ENV === "production" || 
+                       !fs.existsSync(path.join(process.cwd(), "server.ts")) ||
+                       (typeof __filename !== "undefined" && (__filename.includes("server.cjs") || __filename.includes("dist")));
+
+  if (!isProduction) {
+    try {
+      const { createServer: createViteServer } = await import("vite");
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      });
+      app.use(vite.middlewares);
+      console.log("[AI Trading] Vite dev middleware loaded successfully.");
+    } catch (err: any) {
+      console.warn("[AI Trading] Failed to load Vite middleware, running in static mode:", err.message);
+      const distPath = path.join(process.cwd(), "dist");
+      app.use(express.static(distPath));
+      app.get("*", (req, res) => {
+        res.sendFile(path.join(distPath, "index.html"));
+      });
+    }
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
@@ -2755,8 +2769,21 @@ const startServer = async () => {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`[AI Trading] Servidor rodando na porta ${PORT}`);
+  });
+
+  server.on("error", (err: any) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`\n❌ ERRO FATAL: A porta ${PORT} já está sendo usada por outro processo (provavelmente 'api', 'web' ou 'manicontrol').`);
+      console.error(`Como iniciar o analise-IA em outra porta livre (por exemplo, 3005):`);
+      console.error(`  PORT=3005 pm2 start dist/server.cjs --name analise-IA --update-env`);
+      console.error(`  pm2 save`);
+      console.error(`Ou interrompa o processo conflitante na porta ${PORT}.\n`);
+      process.exit(1);
+    } else {
+      console.error("❌ Erro inesperado ao iniciar servidor:", err);
+    }
   });
 };
 
