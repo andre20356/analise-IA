@@ -1,0 +1,1290 @@
+{
+  "config": {
+    "apiKey": "",
+    "secretKey": "",
+    "connectedStatus": "Conectado (Simulado)",
+    "activeSymbol": "BTC/USDT",
+    "virtualCapital": 991,
+    "percentPerOperation": 1.5,
+    "currentBalance": 882.63,
+    "stopLossPct": 1,
+    "takeProfitPct": 2,
+    "dailyGoalUSD": 150,
+    "weeklyGoalUSD": 350,
+    "monthlyGoalUSD": 1500,
+    "afterGoalChoice": "CONTINUE",
+    "dailyGoalReachedAt": null,
+    "aiApiKey": "",
+    "aiModel": "gemini-3.5-flash",
+    "aiProvider": "gemini",
+    "aiCustomUrl": "",
+    "maxDailyTrades": 8,
+    "aiPaused": false,
+    "aiModeState": "AUTO",
+    "maxDrawdownDiario": 5,
+    "maxDrawdownGlobal": 15
+  },
+  "trades": [
+    {
+      "id": "trade-1781572544024-cwp0p",
+      "asset": "DOGE/USDT",
+      "type": "VENDA",
+      "status": "CLOSED",
+      "entryPrice": 0.1417,
+      "exitPrice": 0.1432,
+      "entryTime": "2026-06-16T01:15:44.024Z",
+      "exitTime": "2026-06-16T01:46:24.219Z",
+      "sizePct": 10,
+      "investedCapital": 99.1,
+      "profitPct": -1.0585,
+      "profitCapital": -1.05,
+      "confidence": 93,
+      "stopLoss": 0.1431,
+      "takeProfit": 0.1389,
+      "durationMs": null,
+      "exitReason": null
+    },
+    {
+      "id": "trade-1781538480657-d3bdj",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 67268.83,
+      "exitPrice": 66542.49,
+      "entryTime": "2026-06-15T15:48:00.657Z",
+      "exitTime": "2026-06-15T15:49:53.049Z",
+      "sizePct": 10,
+      "investedCapital": 88.71,
+      "profitPct": -1.08,
+      "profitCapital": -0.96,
+      "confidence": 70,
+      "stopLoss": 66596.14,
+      "takeProfit": 68614.21,
+      "durationMs": 112392,
+      "exitReason": "Stop Loss Atingido"
+    },
+    {
+      "id": "trade-1781536544233-i635h",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 66856.61,
+      "exitPrice": 66160.47,
+      "entryTime": "2026-06-15T15:15:44.233Z",
+      "exitTime": "2026-06-15T15:21:24.918Z",
+      "sizePct": 10,
+      "investedCapital": 88.8,
+      "profitPct": -1.04,
+      "profitCapital": -0.92,
+      "confidence": 85,
+      "stopLoss": 66188.04,
+      "takeProfit": 68193.74,
+      "durationMs": 340685,
+      "exitReason": "Stop Loss Atingido"
+    },
+    {
+      "id": "trade-1781536518999-x4m5n",
+      "asset": "DOGE/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 0.1414,
+      "exitPrice": 67551.34,
+      "entryTime": "2026-06-15T15:15:18.999Z",
+      "exitTime": "2026-06-15T16:01:34.289Z",
+      "sizePct": 10,
+      "investedCapital": 98.67,
+      "profitPct": 47773124.89,
+      "profitCapital": 47137742.33,
+      "confidence": 96,
+      "stopLoss": 0.14,
+      "takeProfit": 0.1442,
+      "durationMs": null,
+      "exitReason": null
+    },
+    {
+      "id": "trade-1781533538718-v16dn",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 70509.39,
+      "exitPrice": 67451.58,
+      "entryTime": "2026-06-15T14:25:38.718Z",
+      "exitTime": "2026-06-15T14:30:54.950Z",
+      "sizePct": 10,
+      "investedCapital": 100,
+      "profitPct": -4.34,
+      "profitCapital": -4.34,
+      "confidence": 69,
+      "stopLoss": 69099.2,
+      "takeProfit": 72624.67,
+      "durationMs": 316232,
+      "exitReason": "Stop Loss Atingido"
+    },
+    {
+      "id": "trade-1781538780566-h4vs8",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 67661.9,
+      "exitPrice": 66944.83,
+      "entryTime": "2026-06-15T15:53:00.566Z",
+      "exitTime": "2026-06-15T15:56:30.837Z",
+      "sizePct": 10,
+      "investedCapital": 88.61,
+      "profitPct": -1.06,
+      "profitCapital": -0.94,
+      "confidence": 67,
+      "stopLoss": 66985.28,
+      "takeProfit": 69015.14,
+      "durationMs": 210271,
+      "exitReason": "Stop Loss Atingido"
+    },
+    {
+      "id": "trade-1781539272940-ad4zl",
+      "asset": "XRP/USDT",
+      "type": "AGUARDAR",
+      "status": "CLOSED",
+      "entryPrice": 0.5472,
+      "exitPrice": 73210.95,
+      "entryTime": "2026-06-15T16:01:12.940Z",
+      "exitTime": "2026-06-15T22:30:23.902Z",
+      "sizePct": 10,
+      "investedCapital": 88.52,
+      "profitPct": 0,
+      "profitCapital": 0,
+      "confidence": 66,
+      "stopLoss": 0.5581,
+      "takeProfit": 0.5253,
+      "durationMs": null,
+      "exitReason": null
+    },
+    {
+      "id": "trade-1781573117750-v5",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "status": "CLOSED",
+      "entryPrice": 67519.61,
+      "exitPrice": 66385.57,
+      "entryTime": "2026-06-16T01:25:17.750Z",
+      "exitTime": "2026-06-16T01:46:27.439Z",
+      "sizePct": 10,
+      "investedCapital": 88.5,
+      "profitPct": -1.68,
+      "profitCapital": -1.49,
+      "confidence": 79,
+      "stopLoss": 66169.22,
+      "takeProfit": 69545.2,
+      "durationMs": null,
+      "exitReason": null
+    }
+  ],
+  "logs": [
+    {
+      "id": "log-1781612422793-3ermp",
+      "timestamp": "2026-06-16T12:20:22.793Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 55% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781612410770-dr4n1",
+      "timestamp": "2026-06-16T12:20:10.770Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781574450043-s4lmm",
+      "timestamp": "2026-06-16T01:47:30.043Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 55% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781574438026-43iaf",
+      "timestamp": "2026-06-16T01:47:18.026Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781574428810-4dz3h",
+      "timestamp": "2026-06-16T01:47:08.810Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781574424890-y0z23",
+      "timestamp": "2026-06-16T01:47:04.890Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781574423682-ekfe2",
+      "timestamp": "2026-06-16T01:47:03.682Z",
+      "type": "system",
+      "message": "[QUANT V5] Robô colocado no piloto automático total."
+    },
+    {
+      "id": "log-1781574422330-14p6r",
+      "timestamp": "2026-06-16T01:47:02.330Z",
+      "type": "system",
+      "message": "[QUANT V5] MAX_OPERACOES_DIA atualizado para 8 trades limitados."
+    },
+    {
+      "id": "log-1781574420579-a1uir",
+      "timestamp": "2026-06-16T01:47:00.579Z",
+      "type": "system",
+      "message": "[QUANT V5] RISCO_POR_OPERACAO ajustado para 1.5% do saldo virtual."
+    },
+    {
+      "id": "log-1781574419818-ew011",
+      "timestamp": "2026-06-16T01:46:59.818Z",
+      "type": "system",
+      "message": "[QUANT V5] META_DIARIA ajustada pelo usuário para $ 150 USD."
+    },
+    {
+      "id": "log-1781574418187-f2cg2",
+      "timestamp": "2026-06-16T01:46:58.187Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Compilando oportunidades para os ativos em rastreio síncrono Bybit..."
+    },
+    {
+      "id": "log-1781574415977-j0bss",
+      "timestamp": "2026-06-16T01:46:55.977Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781574413870-noqta",
+      "timestamp": "2026-06-16T01:46:53.870Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781574387439-ckaew",
+      "timestamp": "2026-06-16T01:46:27.439Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA MANUALMENTE para BTC/USDT. Preço de saída: 66385.57 USDT. Lucro final: -71255.57 USDT (-1.68%)."
+    },
+    {
+      "id": "log-1781574384220-kpf4q",
+      "timestamp": "2026-06-16T01:46:24.220Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA MANUALMENTE para DOGE/USDT. Preço de saída: 66291.75 USDT. Lucro final: -2205294264651.62 USDT (-46783068.67%)."
+    },
+    {
+      "id": "log-1781574215919-z44v9",
+      "timestamp": "2026-06-16T01:43:35.919Z",
+      "type": "trade",
+      "message": "Sinal de COMPRA ignorado. Já existe uma operação aberta ativa para BTC/USDT."
+    },
+    {
+      "id": "log-1781574215918-eacw0",
+      "timestamp": "2026-06-16T01:43:35.918Z",
+      "type": "ai",
+      "message": "Bybit IA sugeriu sinal: COMPRA com confiança de 75% (Motivo: Rompimento de alta consolidado acima da resistencia anterior de 66160 USDT com forte presenca de suporte comprador proximo a 67100 USDT.)"
+    },
+    {
+      "id": "log-1781574203887-crkbt",
+      "timestamp": "2026-06-16T01:43:23.887Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781573117750-wfyn9",
+      "timestamp": "2026-06-16T01:25:17.750Z",
+      "type": "trade",
+      "message": "[V5 AUTO] Posição aberta para BTC/USDT @ 67519.61 USDT"
+    },
+    {
+      "id": "log-1781573117743-wcme9",
+      "timestamp": "2026-06-16T01:25:17.743Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781572939425-err8j",
+      "timestamp": "2026-06-16T01:22:19.425Z",
+      "type": "ai",
+      "message": "[Comando Quant V5] Realizando escaneamento síncrono de livro de ofertas, volume e funding Bybit..."
+    },
+    {
+      "id": "log-1781572544025-o8b8p",
+      "timestamp": "2026-06-16T01:15:44.025Z",
+      "type": "ai",
+      "message": "Mapeamento concluído com sucesso. Melhor oportunidade: DOGE/USDT com confiança de 93%."
+    },
+    {
+      "id": "log-1781572544024-tolfh",
+      "timestamp": "2026-06-16T01:15:44.024Z",
+      "type": "trade",
+      "message": "[Mapeamento IA] Operação Simulada ABERTA automaticamente para DOGE/USDT (VENDA) obtida no escaner com 93% de Confiança. Entrada: 0.1417 USDT."
+    },
+    {
+      "id": "log-1781572543978-427el",
+      "timestamp": "2026-06-16T01:15:43.978Z",
+      "type": "ai",
+      "message": "Iniciando mapeamento automático de oportunidades Bybit (BTC, ETH, SOL, XRP, DOGE)..."
+    },
+    {
+      "id": "log-1781562661934-lmvp9",
+      "timestamp": "2026-06-15T22:31:01.934Z",
+      "type": "connection",
+      "message": "Falha de conexão: Chaves Bybit ausentes."
+    },
+    {
+      "id": "log-1781562623902-uvfqi",
+      "timestamp": "2026-06-15T22:30:23.902Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA MANUALMENTE para XRP/USDT. Preço de saída: 73210.95 USDT. Lucro final: 0 USDT (0.00%)."
+    },
+    {
+      "id": "log-1781540330555-is9jf",
+      "timestamp": "2026-06-15T16:18:50.555Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781540329436-h3pp1",
+      "timestamp": "2026-06-15T16:18:49.436Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781540327588-e15qf",
+      "timestamp": "2026-06-15T16:18:47.588Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781540325218-lph1e",
+      "timestamp": "2026-06-15T16:18:45.218Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-meta-1781539294306",
+      "timestamp": "2026-06-15T16:01:34.306Z",
+      "type": "system",
+      "message": "🎉 META DIÁRIA CONCLUÍDA! Seu lucro virtual alcançou 47137735.17 USD, superando a meta de 50 USD às 16:01:34."
+    },
+    {
+      "id": "log-1781539294289-jirra",
+      "timestamp": "2026-06-15T16:01:34.289Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA MANUALMENTE para DOGE/USDT. Preço de saída: 67551.34 USDT. Lucro final: 47137742.33 USDT (47773124.89%)."
+    },
+    {
+      "id": "log-1781539281141-y96uu",
+      "timestamp": "2026-06-15T16:01:21.141Z",
+      "type": "system",
+      "message": "[Command API] MAX_ENTRADAS_DIARIAS atualizado para 6."
+    },
+    {
+      "id": "log-1781539272940-f7ig5",
+      "timestamp": "2026-06-15T16:01:12.940Z",
+      "type": "trade",
+      "message": "[Confirmação Manual XRP/USDT] Operação manual autorizada. Investido: 88.52 USDT"
+    },
+    {
+      "id": "log-1781538990837-2mgnx",
+      "timestamp": "2026-06-15T15:56:30.837Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA automaticamente para BTC/USDT. Razão: Stop Loss Atingido. Preço de Saída: 66944.83 USDT. ROI: -1.06%. Lucro: -0.94 USDT."
+    },
+    {
+      "id": "log-1781538876432-26320",
+      "timestamp": "2026-06-15T15:54:36.432Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781538860139-p94c9",
+      "timestamp": "2026-06-15T15:54:20.139Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 69% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781538848111-mn1p5",
+      "timestamp": "2026-06-15T15:54:08.111Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781538842945-2gy96",
+      "timestamp": "2026-06-15T15:54:02.945Z",
+      "type": "trade",
+      "message": "Sinal automático (COMPRA) descartado. Operação aberta para BTC/USDT já existe."
+    },
+    {
+      "id": "log-1781538842939-eep9w",
+      "timestamp": "2026-06-15T15:54:02.939Z",
+      "type": "ai",
+      "message": "[Comando V2] Executando análise para par BTC/USDT..."
+    },
+    {
+      "id": "log-1781538787268-pajib",
+      "timestamp": "2026-06-15T15:53:07.268Z",
+      "type": "system",
+      "message": "Parâmetro de risco MAX_ENTRADAS_DIARIAS atualizado para 6 no dia."
+    },
+    {
+      "id": "log-1781538784233-td1er",
+      "timestamp": "2026-06-15T15:53:04.233Z",
+      "type": "ai",
+      "message": "[Comando V2] Executando análise para par BTC/USDT..."
+    },
+    {
+      "id": "log-1781538780566-b08x8",
+      "timestamp": "2026-06-15T15:53:00.566Z",
+      "type": "trade",
+      "message": "[Auto BTC/USDT] Compra/Venda executada com sucesso via comando."
+    },
+    {
+      "id": "log-1781538780549-nescg",
+      "timestamp": "2026-06-15T15:53:00.549Z",
+      "type": "ai",
+      "message": "[Comando V2] Executando análise para par BTC/USDT..."
+    },
+    {
+      "id": "log-1781538772966-q74yb",
+      "timestamp": "2026-06-15T15:52:52.966Z",
+      "type": "system",
+      "message": "Modo do sistema alterado para EXECUÇÃO TOTALMENTE AUTOMÁTICA."
+    },
+    {
+      "id": "log-1781538602916-dvvzw",
+      "timestamp": "2026-06-15T15:50:02.916Z",
+      "type": "ai",
+      "message": "[Comando] Executando: ANALISAR MERCADO para BTC/USDT..."
+    },
+    {
+      "id": "log-1781538593049-cb5qn",
+      "timestamp": "2026-06-15T15:49:53.049Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA automaticamente para BTC/USDT. Razão: Stop Loss Atingido. Preço de Saída: 66542.49 USDT. ROI: -1.08%. Lucro: -0.96 USDT."
+    },
+    {
+      "id": "log-1781538480657-lv01s",
+      "timestamp": "2026-06-15T15:48:00.657Z",
+      "type": "trade",
+      "message": "Operação Simulada ABERTA para BTC/USDT (COMPRA). Entrada: 67268.83 USDT. Virtual SL: 66596.14 (1%) | TP: 68614.21 (2%). Investimento: 88.71 USDT."
+    },
+    {
+      "id": "log-1781538480657-fc8ry",
+      "timestamp": "2026-06-15T15:48:00.657Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: COMPRA | Confiança: 70% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781538468630-bgrvs",
+      "timestamp": "2026-06-15T15:47:48.630Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781538068263-jmoqi",
+      "timestamp": "2026-06-15T15:41:08.263Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781538067214-7jc6x",
+      "timestamp": "2026-06-15T15:41:07.214Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781538066011-4rzi0",
+      "timestamp": "2026-06-15T15:41:06.011Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781536884918-xfnsr",
+      "timestamp": "2026-06-15T15:21:24.918Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA automaticamente para BTC/USDT. Razão: Stop Loss Atingido. Preço de Saída: 66160.47 USDT. ROI: -1.04%. Lucro: -0.92 USDT."
+    },
+    {
+      "id": "log-1781536574244-nflix",
+      "timestamp": "2026-06-15T15:16:14.244Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 64% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781536562218-244gy",
+      "timestamp": "2026-06-15T15:16:02.218Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781536544234-p6x0q",
+      "timestamp": "2026-06-15T15:15:44.234Z",
+      "type": "ai",
+      "message": "Mapeamento concluído com sucesso. Melhor oportunidade: BTC/USDT com confiança de 85%."
+    },
+    {
+      "id": "log-1781536544233-bitzb",
+      "timestamp": "2026-06-15T15:15:44.233Z",
+      "type": "trade",
+      "message": "[Mapeamento IA] Operação Simulada ABERTA automaticamente para BTC/USDT (COMPRA) obtida no escaner com 85% de Confiança. Entrada: 66856.61 USDT."
+    },
+    {
+      "id": "log-1781536544196-3j6d7",
+      "timestamp": "2026-06-15T15:15:44.196Z",
+      "type": "ai",
+      "message": "Iniciando mapeamento automático de oportunidades Bybit (BTC, ETH, SOL, XRP, DOGE)..."
+    },
+    {
+      "id": "log-1781536519001-fugmt",
+      "timestamp": "2026-06-15T15:15:19.001Z",
+      "type": "ai",
+      "message": "Mapeamento concluído com sucesso. Melhor oportunidade: DOGE/USDT com confiança de 96%."
+    },
+    {
+      "id": "log-1781536519000-5hjth",
+      "timestamp": "2026-06-15T15:15:19.000Z",
+      "type": "trade",
+      "message": "[Mapeamento IA] Operação Simulada ABERTA automaticamente para DOGE/USDT (COMPRA) obtida no escaner com 96% de Confiança. Entrada: 0.1414 USDT."
+    },
+    {
+      "id": "log-1781536518956-71hjy",
+      "timestamp": "2026-06-15T15:15:18.956Z",
+      "type": "ai",
+      "message": "Iniciando mapeamento automático de oportunidades Bybit (BTC, ETH, SOL, XRP, DOGE)..."
+    },
+    {
+      "id": "log-1781536504369-z0aot",
+      "timestamp": "2026-06-15T15:15:04.369Z",
+      "type": "connection",
+      "message": "Falha de conexão: Chaves Bybit ausentes."
+    },
+    {
+      "id": "log-1781536500480-7p4px",
+      "timestamp": "2026-06-15T15:15:00.481Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 991 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781533854950-ahii7",
+      "timestamp": "2026-06-15T14:30:54.950Z",
+      "type": "trade",
+      "message": "Operação Simulada FECHADA automaticamente para BTC/USDT. Razão: Stop Loss Atingido. Preço de Saída: 67451.58 USDT. ROI: -4.34%. Lucro: -4.34 USDT."
+    },
+    {
+      "id": "log-1781533563941-fdaf0",
+      "timestamp": "2026-06-15T14:26:03.941Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 71% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781533556935-aao3h",
+      "timestamp": "2026-06-15T14:25:56.935Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781533538718-0nam1",
+      "timestamp": "2026-06-15T14:25:38.718Z",
+      "type": "trade",
+      "message": "Operação Simulada ABERTA para BTC/USDT (COMPRA). Entrada: 70509.39 USDT. Virtual SL: 69099.2 (2%) | TP: 72624.67 (3%). Investimento: 100 USDT."
+    },
+    {
+      "id": "log-1781533538718-566kd",
+      "timestamp": "2026-06-15T14:25:38.718Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: COMPRA | Confiança: 69% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781533531709-axtvf",
+      "timestamp": "2026-06-15T14:25:31.709Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781526781369-b1paj",
+      "timestamp": "2026-06-15T12:33:01.369Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 72% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781526774346-n8wu0",
+      "timestamp": "2026-06-15T12:32:54.346Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "log-1781524757646-d6inv",
+      "timestamp": "2026-06-15T11:59:17.646Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 1000 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781524635562-a7hwf",
+      "timestamp": "2026-06-15T11:57:15.562Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: BTC/USDT, Capital Virtual: 1000 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781522508399-hnj0z",
+      "timestamp": "2026-06-15T11:21:48.399Z",
+      "type": "ai",
+      "message": "Mapeamento concluído com sucesso. Melhor oportunidade: BTC/USDT com confiança de 82%."
+    },
+    {
+      "id": "log-1781522508367-c1tph",
+      "timestamp": "2026-06-15T11:21:48.367Z",
+      "type": "ai",
+      "message": "Iniciando mapeamento automático de oportunidades Bybit (BTC, ETH, SOL, XRP, DOGE)..."
+    },
+    {
+      "id": "log-1781485469357-hzx2p",
+      "timestamp": "2026-06-15T01:04:29.357Z",
+      "type": "system",
+      "message": "Configuração atualizada. Ativo: ETH/USDT, Capital Virtual: 1000 USDT, Metas: Diária: 50 USD | Semanal: 350 USD | Mensal: 1500 USD"
+    },
+    {
+      "id": "log-1781485461133-3onzc",
+      "timestamp": "2026-06-15T01:04:21.133Z",
+      "type": "ai",
+      "message": "[Contingência] Motor IA de Contingência gerou sinal local: AGUARDAR | Confiança: 55% (Ativo: BTC/USDT)"
+    },
+    {
+      "id": "log-1781485454077-ldgw4",
+      "timestamp": "2026-06-15T01:04:14.077Z",
+      "type": "ai",
+      "message": "Solicitando análise de IA Bybit para o par BTC/USDT..."
+    },
+    {
+      "id": "sys-init",
+      "timestamp": "2026-06-13T12:21:50.747Z",
+      "type": "system",
+      "message": "Motor de Trading Virtual e Validação da Bybit iniciado com sucesso."
+    }
+  ],
+  "balanceHistory": [
+    {
+      "timestamp": "2026-06-13T12:21:50.747Z",
+      "balance": 1000
+    },
+    {
+      "timestamp": "2026-06-15T14:25:38.718Z",
+      "balance": 900
+    },
+    {
+      "timestamp": "2026-06-15T14:30:54.950Z",
+      "balance": 995.66
+    },
+    {
+      "timestamp": "2026-06-15T15:15:00.480Z",
+      "balance": 986.66
+    },
+    {
+      "timestamp": "2026-06-15T15:15:18.999Z",
+      "balance": 887.99
+    },
+    {
+      "timestamp": "2026-06-15T15:15:44.233Z",
+      "balance": 799.19
+    },
+    {
+      "timestamp": "2026-06-15T15:21:24.918Z",
+      "balance": 887.07
+    },
+    {
+      "timestamp": "2026-06-15T15:41:06.010Z",
+      "balance": 887.07
+    },
+    {
+      "timestamp": "2026-06-15T15:41:07.214Z",
+      "balance": 887.07
+    },
+    {
+      "timestamp": "2026-06-15T15:41:08.263Z",
+      "balance": 887.07
+    },
+    {
+      "timestamp": "2026-06-15T15:48:00.657Z",
+      "balance": 798.36
+    },
+    {
+      "timestamp": "2026-06-15T15:49:53.049Z",
+      "balance": 886.11
+    },
+    {
+      "timestamp": "2026-06-15T15:56:30.837Z",
+      "balance": 885.17
+    },
+    {
+      "timestamp": "2026-06-15T16:01:34.289Z",
+      "balance": 983.83
+    },
+    {
+      "timestamp": "2026-06-15T22:30:23.902Z",
+      "balance": 983.83
+    },
+    {
+      "timestamp": "2026-06-16T01:15:44.024Z",
+      "balance": 885.17
+    },
+    {
+      "timestamp": "2026-06-16T01:46:24.220Z",
+      "balance": 884.12
+    },
+    {
+      "timestamp": "2026-06-16T01:46:27.439Z",
+      "balance": 882.63
+    }
+  ],
+  "dailyProgress": [
+    {
+      "date": "2026-06-15",
+      "profit": -16.17,
+      "goal": 150,
+      "reached": false,
+      "reachedAt": null,
+      "firstTradeTime": "2026-06-15T14:25:38.718Z"
+    },
+    {
+      "date": "2026-06-16",
+      "profit": -2.54,
+      "goal": 150,
+      "reached": false,
+      "reachedAt": null,
+      "firstTradeTime": "2026-06-16T01:15:44.024Z"
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "opt-1781572544023-xztin",
+      "timestamp": "2026-06-16T01:15:44.023Z",
+      "asset": "DOGE/USDT",
+      "price": 0.1417,
+      "trend": "BAIXA",
+      "confidence": 93,
+      "signal": "VENDA",
+      "stopLoss": 0.1431,
+      "takeProfit": 0.1389,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 43.",
+        "Aumento anormal de volume: Volume atual é 1.5x acima da média móvel recente.",
+        "Aproximação crítica de rompimento da resistência diária (~0.14 USDT)."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO",
+      "tradeId": "trade-1781572544024-cwp0p"
+    },
+    {
+      "id": "opt-1781572544006-q0a1b",
+      "timestamp": "2026-06-16T01:15:44.006Z",
+      "asset": "ETH/USDT",
+      "price": 3523.42,
+      "trend": "ALTA",
+      "confidence": 85,
+      "signal": "COMPRA",
+      "stopLoss": 3488.19,
+      "takeProfit": 3593.89,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 64 indicando momentum comprador contínuo.",
+        "Aumento anormal de volume: Volume atual é 2.3x acima da média móvel recente."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO"
+    },
+    {
+      "id": "opt-1781572544017-4bd6c",
+      "timestamp": "2026-06-16T01:15:44.017Z",
+      "asset": "XRP/USDT",
+      "price": 0.5469,
+      "trend": "BAIXA",
+      "confidence": 73,
+      "signal": "AGUARDAR",
+      "stopLoss": 0.5524,
+      "takeProfit": 0.536,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Aumento anormal de volume: Volume atual é 1.7x acima da média móvel recente."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781572543987-eztia",
+      "timestamp": "2026-06-16T01:15:43.987Z",
+      "asset": "BTC/USDT",
+      "price": 67180.54,
+      "trend": "ALTA",
+      "confidence": 70,
+      "signal": "AGUARDAR",
+      "stopLoss": 67852.35,
+      "takeProfit": 65836.93,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 55 indicando momentum comprador contínuo."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781572544012-ou39d",
+      "timestamp": "2026-06-16T01:15:44.012Z",
+      "asset": "SOL/USDT",
+      "price": 142.58,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 144.01,
+      "takeProfit": 139.73,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 41."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536544202-53a9m",
+      "timestamp": "2026-06-15T15:15:44.202Z",
+      "asset": "BTC/USDT",
+      "price": 66856.61,
+      "trend": "ALTA",
+      "confidence": 85,
+      "signal": "COMPRA",
+      "stopLoss": 66188.04,
+      "takeProfit": 68193.74,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 58 indicando momentum comprador contínuo.",
+        "Aumento anormal de volume: Volume atual é 1.3x acima da média móvel recente."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO",
+      "tradeId": "trade-1781536544233-i635h"
+    },
+    {
+      "id": "opt-1781536544233-eox1k",
+      "timestamp": "2026-06-15T15:15:44.233Z",
+      "asset": "DOGE/USDT",
+      "price": 0.1415,
+      "trend": "ALTA",
+      "confidence": 82,
+      "signal": "COMPRA",
+      "stopLoss": 0.1401,
+      "takeProfit": 0.1443,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 55 indicando momentum comprador contínuo.",
+        "Aproximação crítica de rompimento da resistência diária (~0.14 USDT)."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536544218-mejek",
+      "timestamp": "2026-06-15T15:15:44.218Z",
+      "asset": "ETH/USDT",
+      "price": 3518.2,
+      "trend": "ALTA",
+      "confidence": 70,
+      "signal": "AGUARDAR",
+      "stopLoss": 3553.38,
+      "takeProfit": 3447.84,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 67 indicando momentum comprador contínuo."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536544223-hlg2o",
+      "timestamp": "2026-06-15T15:15:44.223Z",
+      "asset": "SOL/USDT",
+      "price": 142.75,
+      "trend": "ALTA",
+      "confidence": 70,
+      "signal": "AGUARDAR",
+      "stopLoss": 144.18,
+      "takeProfit": 139.9,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 65 indicando momentum comprador contínuo."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536544228-dfbij",
+      "timestamp": "2026-06-15T15:15:44.228Z",
+      "asset": "XRP/USDT",
+      "price": 0.5471,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 0.5526,
+      "takeProfit": 0.5362,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 39."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536518999-eq5do",
+      "timestamp": "2026-06-15T15:15:18.999Z",
+      "asset": "DOGE/USDT",
+      "price": 0.1414,
+      "trend": "ALTA",
+      "confidence": 96,
+      "signal": "COMPRA",
+      "stopLoss": 0.14,
+      "takeProfit": 0.1442,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 60 indicando momentum comprador contínuo.",
+        "Aumento anormal de volume: Volume atual é 1.3x acima da média móvel recente.",
+        "Aproximação crítica de rompimento da resistência diária (~0.14 USDT)."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO",
+      "tradeId": "trade-1781536518999-x4m5n"
+    },
+    {
+      "id": "opt-1781536518979-gl0oa",
+      "timestamp": "2026-06-15T15:15:18.979Z",
+      "asset": "ETH/USDT",
+      "price": 3514.85,
+      "trend": "ALTA",
+      "confidence": 77,
+      "signal": "COMPRA",
+      "stopLoss": 3479.7,
+      "takeProfit": 3585.15,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "Aumento anormal de volume: Volume atual é 1.7x acima da média móvel recente."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO"
+    },
+    {
+      "id": "opt-1781536518963-2dbnj",
+      "timestamp": "2026-06-15T15:15:18.963Z",
+      "asset": "BTC/USDT",
+      "price": 66945.74,
+      "trend": "ALTA",
+      "confidence": 70,
+      "signal": "AGUARDAR",
+      "stopLoss": 67615.2,
+      "takeProfit": 65606.83,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 57 indicando momentum comprador contínuo."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536518985-k09nj",
+      "timestamp": "2026-06-15T15:15:18.985Z",
+      "asset": "SOL/USDT",
+      "price": 142.89,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 144.32,
+      "takeProfit": 140.03,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 37."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781536518993-odc2m",
+      "timestamp": "2026-06-15T15:15:18.993Z",
+      "asset": "XRP/USDT",
+      "price": 0.5483,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 0.5538,
+      "takeProfit": 0.5373,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 36."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781522508373-pkngn",
+      "timestamp": "2026-06-15T11:21:48.373Z",
+      "asset": "BTC/USDT",
+      "price": 75826.94,
+      "trend": "ALTA",
+      "confidence": 82,
+      "signal": "COMPRA",
+      "stopLoss": 74310.4,
+      "takeProfit": 78860.02,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 58 indicando momentum comprador contínuo.",
+        "Aproximação crítica de rompimento da resistência diária (~69862.5 USDT)."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781522508399-9ya9v",
+      "timestamp": "2026-06-15T11:21:48.399Z",
+      "asset": "DOGE/USDT",
+      "price": 0.1417,
+      "trend": "ALTA",
+      "confidence": 82,
+      "signal": "COMPRA",
+      "stopLoss": 0.1389,
+      "takeProfit": 0.1474,
+      "justification": [
+        "Tendência principal de ALTA confirmada nos tempos gráficos de 1H e 4H.",
+        "RSI saudável em 57 indicando momentum comprador contínuo.",
+        "Aproximação crítica de rompimento da resistência diária (~0.14 USDT)."
+      ],
+      "motivo": "Potencial rompimento técnico com suporte no fluxo passivo de ofertas e RSI favorável.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781522508386-8gj4n",
+      "timestamp": "2026-06-15T11:21:48.386Z",
+      "asset": "ETH/USDT",
+      "price": 3453.92,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 3523,
+      "takeProfit": 3315.76,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 35."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "opt-1781522508394-qs1qt",
+      "timestamp": "2026-06-15T11:21:48.394Z",
+      "asset": "XRP/USDT",
+      "price": 0.5472,
+      "trend": "BAIXA",
+      "confidence": 66,
+      "signal": "AGUARDAR",
+      "stopLoss": 0.5581,
+      "takeProfit": 0.5253,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários.",
+        "Pressão vendedora em aceleração medida por RSI em 33."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "APROVADO",
+      "tradeId": "trade-1781539272940-ad4zl"
+    },
+    {
+      "id": "opt-1781522508390-wzayl",
+      "timestamp": "2026-06-15T11:21:48.390Z",
+      "asset": "SOL/USDT",
+      "price": 142.36,
+      "trend": "BAIXA",
+      "confidence": 58,
+      "signal": "AGUARDAR",
+      "stopLoss": 145.21,
+      "takeProfit": 136.67,
+      "justification": [
+        "Tendência de baixa mapeada nos intervalos intradiários."
+      ],
+      "motivo": "Consolidação lateral ou falta de volume mínimo necessário para atender aos requisitos operacionais.",
+      "volumeAboveAvg": false,
+      "riskRewardRatio": "1:2.0",
+      "status": "DESCARTADO"
+    },
+    {
+      "id": "opp-1781574418187-v5",
+      "timestamp": "2026-06-16T01:46:58.187Z",
+      "asset": "BTC/USDT",
+      "price": 65000,
+      "trend": "ALTA",
+      "confidence": 89,
+      "signal": "COMPRA",
+      "stopLoss": 63700,
+      "takeProfit": 67600,
+      "justification": [
+        "Cruzamento de médias exponenciais na Bybit",
+        "Volatilidade comprimida no canal de Keltner"
+      ],
+      "motivo": "Alinhamento perfeito de livro de ofertas compradora, nível técnico superior com score elevado.",
+      "volumeAboveAvg": true,
+      "riskRewardRatio": "1:2",
+      "status": "PENDENTE"
+    }
+  ],
+  "learningRecords": [
+    {
+      "id": "learn-1781574387439-0xydt",
+      "timestamp": "2026-06-16T01:46:27.439Z",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "outcome": "LOSS",
+      "profitPct": -1.68,
+      "confidence": 79,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 1% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    },
+    {
+      "id": "learn-1781574384220-hbshz",
+      "timestamp": "2026-06-16T01:46:24.220Z",
+      "asset": "DOGE/USDT",
+      "type": "VENDA",
+      "outcome": "LOSS",
+      "profitPct": -46783068.67,
+      "confidence": 93,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 1% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    },
+    {
+      "id": "learn-1781562623902-fgtby",
+      "timestamp": "2026-06-15T22:30:23.902Z",
+      "asset": "XRP/USDT",
+      "type": "AGUARDAR",
+      "outcome": "WIN",
+      "profitPct": 0,
+      "confidence": 66,
+      "factors": [
+        "Tendência de Baixa confirmada pelo fluxo de negociações.",
+        "Configuração racional de Take Profit atingida com precisão.",
+        "Volume do ativo estava favorável para a continuação do movimento."
+      ],
+      "lessons": "A operação para XRP/USDT foi extremamente bem-sucedida. O respeito às regras de risco-retorno (Take Profit a 2%) evitou saídas precoces e garantiu a consolidação do lucro."
+    },
+    {
+      "id": "learn-1781539294289-64tsz",
+      "timestamp": "2026-06-15T16:01:34.289Z",
+      "asset": "DOGE/USDT",
+      "type": "COMPRA",
+      "outcome": "WIN",
+      "profitPct": 47773124.89,
+      "confidence": 96,
+      "factors": [
+        "Tendência de Alta confirmada pelo fluxo de negociações.",
+        "Configuração racional de Take Profit atingida com precisão.",
+        "Volume do ativo estava favorável para a continuação do movimento."
+      ],
+      "lessons": "A operação para DOGE/USDT foi extremamente bem-sucedida. O respeito às regras de risco-retorno (Take Profit a 2%) evitou saídas precoces e garantiu a consolidação do lucro."
+    },
+    {
+      "id": "learn-1781538990837-0ho7p",
+      "timestamp": "2026-06-15T15:56:30.837Z",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "outcome": "LOSS",
+      "profitPct": -1.06,
+      "confidence": 67,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 1% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    },
+    {
+      "id": "learn-1781538593049-qtipq",
+      "timestamp": "2026-06-15T15:49:53.049Z",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "outcome": "LOSS",
+      "profitPct": -1.08,
+      "confidence": 70,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 1% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    },
+    {
+      "id": "learn-1781536884918-20o1o",
+      "timestamp": "2026-06-15T15:21:24.918Z",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "outcome": "LOSS",
+      "profitPct": -1.04,
+      "confidence": 85,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 1% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    },
+    {
+      "id": "learn-1781533854950-08dye",
+      "timestamp": "2026-06-15T14:30:54.950Z",
+      "asset": "BTC/USDT",
+      "type": "COMPRA",
+      "outcome": "LOSS",
+      "profitPct": -4.34,
+      "confidence": 69,
+      "factors": [
+        "Volatilidade elevada superou a margem técnica de proteção.",
+        "Reversão de tendência abrupta motivada por forte pressão institucional contrária.",
+        "RSI indicava sobrecompra/sobrevenda de curto prazo não respeitada pelo mercado."
+      ],
+      "lessons": "O Stop Loss de 2% foi acionado corretamente, protegendo o capital geral contra maiores perdas. Recomenda-se calibrar com base na volatilidade histórica."
+    }
+  ]
+}
