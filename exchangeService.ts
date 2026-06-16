@@ -57,23 +57,40 @@ function getBybitHeaders(apiKey: string, secretKey: string, queryString: string,
   };
 }
 
-// Helper to retrieve keys from db.json
+// Helper to retrieve keys prioritizing environment variables, falling back to db.json
 export function getSavedCredentials() {
+  // Check ENVIRONMENT variables first for security
+  const envApiKey = process.env.BYBIT_API_KEY || process.env.BINANCE_API_KEY || process.env.API_KEY || "";
+  const envSecretKey = process.env.BYBIT_API_SECRET || process.env.BYBIT_SECRET_KEY || process.env.BINANCE_API_SECRET || process.env.BINANCE_API_SECRET_KEY || process.env.SECRET_KEY || process.env.API_SECRET || "";
+
+  let dbConfig: any = null;
   try {
     if (fs.existsSync(DB_FILE)) {
       const raw = fs.readFileSync(DB_FILE, "utf-8");
       const state = JSON.parse(raw);
       if (state && state.config) {
-        const secretSalt = process.env.GEMINI_API_KEY || "AI_TRADING_DEFAULT_SALT_123";
-        const apiKey = state.config.apiKey ? decryptKey(state.config.apiKey, secretSalt) : "";
-        const secretKey = state.config.secretKey ? decryptKey(state.config.secretKey, secretSalt) : "";
-        return { apiKey, secretKey, config: state.config };
+        dbConfig = state.config;
       }
     }
-  } catch (err: any) {
-    console.error("[ExchangeService] Error reading credentials:", err.message);
+  } catch (err) {}
+
+  if (envApiKey && envSecretKey) {
+    return { apiKey: envApiKey, secretKey: envSecretKey, config: dbConfig };
   }
-  return { apiKey: "", secretKey: "", config: null };
+
+  // Fallback to saved database credentials if environment variables aren't set
+  try {
+    if (dbConfig) {
+      const secretSalt = process.env.GEMINI_API_KEY || "AI_TRADING_DEFAULT_SALT_123";
+      const apiKey = dbConfig.apiKey ? decryptKey(dbConfig.apiKey, secretSalt) : "";
+      const secretKey = dbConfig.secretKey ? decryptKey(dbConfig.secretKey, secretSalt) : "";
+      return { apiKey, secretKey, config: dbConfig };
+    }
+  } catch (err: any) {
+    console.error("[ExchangeService] Error reading credentials from DB fallback:", err.message);
+  }
+
+  return { apiKey: "", secretKey: "", config: dbConfig };
 }
 
 export class ExchangeService {
@@ -313,5 +330,161 @@ export class ExchangeService {
     }
 
     return mockPositions;
+  }
+
+  /**
+   * Fetches ticker/price data for a symbol.
+   * Falls back automatically to simulated data on any failure.
+   */
+  static async fetchTicker(symbol: string): Promise<{
+    symbol: string;
+    price: number;
+    volume: number;
+    priceChangePercent: number;
+    high: number;
+    low: number;
+    fundingRate: number;
+    openInterest: number;
+    isReal: boolean;
+  }> {
+    const isRealExchange = process.env.USE_REAL_EXCHANGE === "true";
+    const cleanSymbol = symbol.replace("/", "").toUpperCase();
+
+    // Default mock fallback generator
+    const getFallback = () => {
+      const basePrices: Record<string, number> = {
+        "BTC/USDT": 67500,
+        "ETH/USDT": 3500,
+        "SOL/USDT": 145,
+        "XRP/USDT": 0.55,
+        "DOGE/USDT": 0.14
+      };
+      const basePrice = basePrices[symbol] || basePrices[symbol + "/USDT"] || basePrices[symbol.replace("/", "")] || 100;
+      const randomPct = (Math.random() * 0.44 - 0.22) / 100;
+      const fauxPrice = basePrice * (1 + randomPct);
+      return {
+        symbol: symbol,
+        price: parseFloat(fauxPrice.toFixed(symbol.includes("XRP") || symbol.includes("DOGE") ? 4 : 2)),
+        volume: basePrice * 285 + (Math.random() * 10000),
+        priceChangePercent: parseFloat((randomPct * 100).toFixed(2)),
+        high: parseFloat((basePrice * 1.035).toFixed(2)),
+        low: parseFloat((basePrice * 0.965).toFixed(2)),
+        fundingRate: 0.0001,
+        openInterest: parseFloat((basePrice * 50000).toFixed(2)),
+        isReal: false
+      };
+    };
+
+    if (!isRealExchange) {
+      return getFallback();
+    }
+
+    try {
+      const res = await fetchWithTimeout(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${cleanSymbol}`);
+      if (!res.ok) {
+        throw new Error(`Bybit HTTP error: ${res.status}`);
+      }
+      const data: any = await res.json();
+      if (data.retCode !== 0 || !data.result || !data.result.list || data.result.list.length === 0) {
+        throw new Error(data.retMsg || "Bybit API returned invalid result list");
+      }
+
+      const tick = data.result.list[0];
+      const lastPrice = parseFloat(tick.lastPrice);
+      return {
+        symbol: symbol,
+        price: lastPrice,
+        volume: parseFloat(tick.volume24h) || 0,
+        priceChangePercent: parseFloat((parseFloat(tick.price24hPcnt) * 100).toFixed(2)) || 0,
+        high: parseFloat(tick.highPrice24h) || lastPrice,
+        low: parseFloat(tick.lowPrice24h) || lastPrice,
+        fundingRate: parseFloat(tick.fundingRate) || 0.0001,
+        openInterest: parseFloat(tick.openInterest) || 0,
+        isReal: true
+      };
+    } catch (err: any) {
+      console.error(`[ExchangeService] fetchTicker failed for ${symbol}: ${err.message}. Returning fallback.`);
+      return getFallback();
+    }
+  }
+
+  /**
+   * Fetches orderbook listings (bids and asks).
+   * Falls back automatically to simulated orderbook on failure.
+   */
+  static async fetchOrderBook(symbol: string, limit = 8): Promise<{
+    bids: { price: number; quantity: number }[];
+    asks: { price: number; quantity: number }[];
+    isReal: boolean;
+  }> {
+    const isRealExchange = process.env.USE_REAL_EXCHANGE === "true";
+    const cleanSymbol = symbol.replace("/", "").toUpperCase();
+
+    // Default mock fallback generator
+    const getFallback = () => {
+      const basePrices: Record<string, number> = {
+        "BTC/USDT": 67500,
+        "ETH/USDT": 3500,
+        "SOL/USDT": 145,
+        "XRP/USDT": 0.55,
+        "DOGE/USDT": 0.14
+      };
+      const basePrice = basePrices[symbol] || basePrices[symbol + "/USDT"] || basePrices[symbol.replace("/", "")] || 100;
+      const bids: any[] = [];
+      const asks: any[] = [];
+      const spread = basePrice * 0.0003;
+      
+      for (let i = 1; i <= limit; i++) {
+        const bidPrice = parseFloat((basePrice - spread - (i * basePrice * 0.0002)).toFixed(symbol.includes("XRP") || symbol.includes("DOGE") ? 4 : 2));
+        const bidQty = parseFloat((Math.random() * 8.5 + 0.1).toFixed(symbol.includes("BTC") ? 3 : 1));
+        bids.push({ price: bidPrice, quantity: bidQty });
+        
+        const askPrice = parseFloat((basePrice + spread + (i * basePrice * 0.0002)).toFixed(symbol.includes("XRP") || symbol.includes("DOGE") ? 4 : 2));
+        const askQty = parseFloat((Math.random() * 8.5 + 0.1).toFixed(symbol.includes("BTC") ? 3 : 1));
+        asks.push({ price: askPrice, quantity: askQty });
+      }
+
+      bids.sort((a, b) => b.price - a.price);
+      asks.sort((a, b) => a.price - b.price);
+
+      return { bids, asks, isReal: false };
+    };
+
+    if (!isRealExchange) {
+      return getFallback();
+    }
+
+    try {
+      const res = await fetchWithTimeout(`https://api.bybit.com/v5/market/orderbook?category=linear&symbol=${cleanSymbol}&limit=${limit}`);
+      if (!res.ok) {
+        throw new Error(`Bybit HTTP error: ${res.status}`);
+      }
+      const data: any = await res.json();
+      if (data.retCode !== 0 || !data.result) {
+        throw new Error(data.retMsg || "Bybit API returned invalid result for orderbook");
+      }
+
+      const rawBids = data.result.b || [];
+      const rawAsks = data.result.a || [];
+
+      const formattedBids = rawBids.map((b: any) => ({
+        price: parseFloat(b[0]),
+        quantity: parseFloat(b[1]),
+      }));
+
+      const formattedAsks = rawAsks.map((a: any) => ({
+        price: parseFloat(a[0]),
+        quantity: parseFloat(a[1]),
+      }));
+
+      return {
+        bids: formattedBids,
+        asks: formattedAsks,
+        isReal: true
+      };
+    } catch (err: any) {
+      console.error(`[ExchangeService] fetchOrderBook failed for ${symbol}: ${err.message}. Returning fallback.`);
+      return getFallback();
+    }
   }
 }

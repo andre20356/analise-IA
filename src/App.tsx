@@ -89,13 +89,25 @@ export default function App() {
       if (!res.ok) throw new Error('Falha ao comunicar com o servidor.');
       const data = await res.json();
       
-      setConfig(data.config);
-      setTrades(data.trades);
-      setLogs(data.logs);
-      setBalanceHistory(data.balanceHistory);
-      setOpportunities(data.opportunities || []);
-      setLearningRecords(data.learningRecords || []);
-      if (data.metrics) {
+      if (data && data.config) {
+        setConfig(data.config);
+      }
+      if (data && data.trades) {
+        setTrades(data.trades);
+      }
+      if (data && data.logs) {
+        setLogs(data.logs);
+      }
+      if (data && data.balanceHistory) {
+        setBalanceHistory(data.balanceHistory);
+      }
+      if (data && data.opportunities) {
+        setOpportunities(data.opportunities);
+      }
+      if (data && data.learningRecords) {
+        setLearningRecords(data.learningRecords);
+      }
+      if (data && data.metrics) {
         setMetrics(data.metrics);
       }
       setErrorBanner(null);
@@ -119,15 +131,29 @@ export default function App() {
         
         // After potential automatic ticker update triggers trade closure, reload state
         const stateRes = await fetch('/api/state');
-        const stateData = await stateRes.json();
-        setConfig(stateData.config);
-        setTrades(stateData.trades);
-        setLogs(stateData.logs);
-        setBalanceHistory(stateData.balanceHistory);
-        setOpportunities(stateData.opportunities || []);
-        setLearningRecords(stateData.learningRecords || []);
-        if (stateData.metrics) {
-          setMetrics(stateData.metrics);
+        if (stateRes.ok) {
+          const stateData = await stateRes.json();
+          if (stateData && stateData.config) {
+            setConfig(stateData.config);
+          }
+          if (stateData && stateData.trades) {
+            setTrades(stateData.trades);
+          }
+          if (stateData && stateData.logs) {
+            setLogs(stateData.logs);
+          }
+          if (stateData && stateData.balanceHistory) {
+            setBalanceHistory(stateData.balanceHistory);
+          }
+          if (stateData && stateData.opportunities) {
+            setOpportunities(stateData.opportunities);
+          }
+          if (stateData && stateData.learningRecords) {
+            setLearningRecords(stateData.learningRecords);
+          }
+          if (stateData && stateData.metrics) {
+            setMetrics(stateData.metrics);
+          }
         }
       }
     } catch (err) {
@@ -213,12 +239,22 @@ export default function App() {
   };
 
   const handleStateUpdate = (updatedState: any) => {
-    setConfig(updatedState.config);
-    setTrades(updatedState.trades);
-    setLogs(updatedState.logs);
-    setBalanceHistory(updatedState.balanceHistory);
-    if (updatedState.metrics) {
-      setMetrics(updatedState.metrics);
+    if (updatedState) {
+      if (updatedState.config) {
+        setConfig(updatedState.config);
+      }
+      if (updatedState.trades) {
+        setTrades(updatedState.trades);
+      }
+      if (updatedState.logs) {
+        setLogs(updatedState.logs);
+      }
+      if (updatedState.balanceHistory) {
+        setBalanceHistory(updatedState.balanceHistory);
+      }
+      if (updatedState.metrics) {
+        setMetrics(updatedState.metrics);
+      }
     }
   };
 

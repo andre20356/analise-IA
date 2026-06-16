@@ -435,6 +435,10 @@ async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutM
 }
 
 async function fetchBybitMarketData(symbol: string) {
+  if (process.env.USE_REAL_EXCHANGE !== "true") {
+    return generateFallbackMarketData(symbol);
+  }
+
   // Translate "BTC/USDT" to "BTCUSDT"
   const cleanSymbol = symbol.replace("/", "").toUpperCase();
   
