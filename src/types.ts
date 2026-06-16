@@ -33,6 +33,7 @@ export interface UserConfig {
   maxDailyTrades?: number;
   aiPaused?: boolean;
   aiModeState?: 'ANALYTIC' | 'SEMI_AUTO' | 'AUTO';
+  realExchangeBalance?: number | null;
 }
 
 export interface Candle {

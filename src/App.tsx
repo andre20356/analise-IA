@@ -12,7 +12,8 @@ import {
   Zap,
   Info,
   Target,
-  Search
+  Search,
+  Coins
 } from 'lucide-react';
 
 import {
@@ -486,13 +487,33 @@ export default function App() {
         ) : (
           <>
             {/* KPI METRICS ROW */}
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" id="stats-grid">
+            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3" id="stats-grid">
               <MetricCard
                 title="Saldo Virtual"
                 value={`${config.currentBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} USDT`}
                 subValue={`Disponível de ${config.virtualCapital} USDT`}
                 icon={Wallet}
                 iconColor="text-blue-400"
+              />
+              <MetricCard
+                title="Saldo Real Bybit"
+                value={
+                  config.realExchangeBalance !== undefined && config.realExchangeBalance !== null
+                    ? `${config.realExchangeBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} USDT`
+                    : 'Desconectado'
+                }
+                subValue={
+                  config.realExchangeBalance !== undefined && config.realExchangeBalance !== null
+                    ? 'Exchange ativa'
+                    : 'Sem chaves API válidas'
+                }
+                icon={Coins}
+                iconColor="text-amber-500"
+                badge={
+                  config.realExchangeBalance !== undefined && config.realExchangeBalance !== null
+                    ? { text: 'Real', type: 'success' }
+                    : { text: 'Simulado', type: 'warning' }
+                }
               />
               <MetricCard
                 title="Lucro Total"

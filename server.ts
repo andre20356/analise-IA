@@ -680,12 +680,24 @@ function tickCheckTrades(state: any, symbol: string, currentPrice: number) {
 app.get("/api/state", async (req, res) => {
   const state = readDB();
   
+  // Fetch real balance from exchange if API keys configured
+  let realExchangeBalance: number | null = null;
+  try {
+    const realBal = await ExchangeService.fetchRealBalance();
+    if (realBal) {
+      realExchangeBalance = realBal.balance;
+    }
+  } catch (err: any) {
+    console.error("[Exchange Integration] Error fetching real balance in /api/state:", err.message);
+  }
+
   // Sanitize secret credentials for UI safety
   const safeConfig = {
     ...state.config,
     apiKey: state.config.apiKey ? "********" + state.config.apiKey.slice(-4) : "",
     secretKey: state.config.secretKey ? "****************" : "",
-    aiApiKey: state.config.aiApiKey ? "********" + state.config.aiApiKey.slice(-4) : ""
+    aiApiKey: state.config.aiApiKey ? "********" + state.config.aiApiKey.slice(-4) : "",
+    realExchangeBalance: realExchangeBalance
   };
 
   let tradesToSend = state.trades || [];

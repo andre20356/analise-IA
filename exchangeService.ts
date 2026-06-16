@@ -147,6 +147,49 @@ export class ExchangeService {
   }
 
   /**
+   * Specifically fetches the real balance from Bybit if credentials are configured.
+   * If they are missing or the request fails, returns null.
+   */
+  static async fetchRealBalance(): Promise<{ balance: number; currency: string } | null> {
+    const { apiKey, secretKey } = getSavedCredentials();
+    if (!apiKey || !secretKey) {
+      return null;
+    }
+
+    try {
+      const queryString = "accountType=UNIFIED";
+      const headers = getBybitHeaders(apiKey, secretKey, queryString);
+      const res = await fetchWithTimeout(`https://api.bybit.com/v5/account/wallet-balance?${queryString}`, {
+        method: "GET",
+        headers
+      }, 4000);
+
+      if (!res.ok) {
+        throw new Error(`Bybit HTTP error: ${res.status}`);
+      }
+
+      const data: any = await res.json();
+      if (data.retCode !== 0) {
+        throw new Error(data.retMsg || "Bybit API returned non-zero retCode");
+      }
+
+      const list = data.result?.list || [];
+      if (list.length > 0) {
+        const totalWalletBalance = parseFloat(list[0].totalWalletBalance || "0");
+        const totalEquity = parseFloat(list[0].totalEquity || "0");
+        const actualBalance = totalEquity > 0 ? totalEquity : totalWalletBalance;
+        return {
+          balance: parseFloat(actualBalance.toFixed(2)),
+          currency: "USDT"
+        };
+      }
+    } catch (err: any) {
+      console.error("[ExchangeService] fetchRealBalance error:", err.message);
+    }
+    return null;
+  }
+
+  /**
    * Fetches assets/coin holdings inside the unified account.
    * Falls back to mock values representing BTC, ETH, SOL, XRP, DOGE allocations.
    */
