@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import { ExchangeService } from "./exchangeService";
+
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const DB_FILE = path.join(process.cwd(), "db.json");
@@ -671,7 +673,7 @@ function tickCheckTrades(state: any, symbol: string, currentPrice: number) {
 // --- API Endpoints ---
 
 // Get current state
-app.get("/api/state", (req, res) => {
+app.get("/api/state", async (req, res) => {
   const state = readDB();
   
   // Sanitize secret credentials for UI safety
@@ -682,7 +684,49 @@ app.get("/api/state", (req, res) => {
     aiApiKey: state.config.aiApiKey ? "********" + state.config.aiApiKey.slice(-4) : ""
   };
 
-  const closedTrades = state.trades.filter((t: any) => t.status === "CLOSED");
+  let tradesToSend = state.trades || [];
+
+  // Se USE_REAL_EXCHANGE estiver habilitado, vamos carregar saldo e posições reais
+  if (process.env.USE_REAL_EXCHANGE === "true") {
+    try {
+      const realBalanceData = await ExchangeService.fetchBalance();
+      if (realBalanceData.isReal) {
+        safeConfig.currentBalance = realBalanceData.balance;
+      }
+
+      const realPositions = await ExchangeService.fetchPositions();
+      // Separamos operações fechadas normais
+      const closedTrades = state.trades.filter((t: any) => t.status === "CLOSED");
+
+      // Convertemos posições reais para a estrutura SimulatedTrade esperada pelo frontend
+      const openRealTrades = realPositions.map((pos) => ({
+        id: pos.id,
+        asset: pos.asset,
+        type: pos.type,
+        status: "OPEN" as const,
+        entryPrice: pos.entryPrice,
+        exitPrice: null,
+        entryTime: new Date().toISOString(),
+        exitTime: null,
+        sizePct: state.config.percentPerOperation || 10,
+        investedCapital: pos.investedCapital,
+        profitPct: pos.unrealizedPnlPct,
+        profitCapital: pos.unrealizedPnl,
+        confidence: 85,
+        stopLoss: pos.stopLoss,
+        takeProfit: pos.takeProfit,
+        durationMs: null,
+        exitReason: null,
+        isReal: true
+      }));
+
+      tradesToSend = [...openRealTrades, ...closedTrades];
+    } catch (e: any) {
+      console.error("[Exchange Integration] Erro ao carregar dados integrados da Bybit:", e.message);
+    }
+  }
+
+  const closedTrades = tradesToSend.filter((t: any) => t.status === "CLOSED");
   const todayStr = new Date().toISOString().split("T")[0];
   const todayRecord = state.dailyProgress?.find((d: any) => d.date === todayStr);
   const todayProfit = todayRecord ? todayRecord.profit : 0;
@@ -739,13 +783,14 @@ app.get("/api/state", (req, res) => {
   });
 
   // Ops needed to reach goal
+  const currentWorkingBalance = safeConfig.currentBalance || 1000;
   const remaining = Math.max(0, (state.config.dailyGoalUSD || 50) - todayProfit);
-  const profitPerTrade = (state.config.currentBalance * (state.config.percentPerOperation / 100)) * (state.config.takeProfitPct / 100);
+  const profitPerTrade = (currentWorkingBalance * (state.config.percentPerOperation / 100)) * (state.config.takeProfitPct / 100);
   const opsNeeded = remaining > 0 ? Math.ceil(remaining / (profitPerTrade || 1)) : 0;
 
   res.json({
     config: safeConfig,
-    trades: state.trades,
+    trades: tradesToSend,
     logs: state.logs,
     balanceHistory: state.balanceHistory,
     dailyProgress: state.dailyProgress || [],
