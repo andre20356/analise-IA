@@ -237,11 +237,16 @@ function readDB() {
       if (parsed.config.dailyGoalReachedAt === undefined) parsed.config.dailyGoalReachedAt = null;
       if (parsed.config.aiApiKey === undefined) parsed.config.aiApiKey = "";
       if (parsed.config.aiModel === undefined) parsed.config.aiModel = "gemini-1.5-flash";
+      // Corrige modelos inexistentes armazenados em versões anteriores
+      const MODELOS_INVALIDOS = ["gemini-3.5-flash", "gemini-3.0", "gemini-pro-ultra"];
+      if (MODELOS_INVALIDOS.includes(parsed.config.aiModel)) parsed.config.aiModel = "gemini-1.5-flash";
       if (parsed.config.aiProvider === undefined) parsed.config.aiProvider = "gemini";
       if (parsed.config.aiCustomUrl === undefined) parsed.config.aiCustomUrl = "";
       if (parsed.config.maxDailyTrades === undefined) parsed.config.maxDailyTrades = 5;
       if (parsed.config.aiPaused === undefined) parsed.config.aiPaused = false;
       if (parsed.config.aiModeState === undefined) parsed.config.aiModeState = "SEMI_AUTO";
+      // Corrige aiModeState inválido armazenado em versões anteriores
+      if (!["ANALYTIC", "SEMI_AUTO", "AUTO"].includes(parsed.config.aiModeState)) parsed.config.aiModeState = "SEMI_AUTO";
     }
     
     if (!parsed.dailyProgress) {
