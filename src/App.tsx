@@ -47,11 +47,16 @@ export default function App() {
     virtualCapital: 1000,
     percentPerOperation: 10,
     currentBalance: 1000,
+    stopLossPct: 2,
+    takeProfitPct: 3,
     dailyGoalUSD: 50,
     weeklyGoalUSD: 350,
     monthlyGoalUSD: 1500,
     afterGoalChoice: 'CONTINUE',
-    dailyGoalReachedAt: null
+    dailyGoalReachedAt: null,
+    aiModeState: 'SEMI_AUTO',
+    aiPaused: false,
+    maxDailyTrades: 5
   });
 
   const [trades, setTrades] = useState<SimulatedTrade[]>([]);
@@ -120,7 +125,7 @@ export default function App() {
     }
   }, []);
 
-  // Fetch real-time market data (Binance Public REST proxy) and trigger trade stop ticks
+  // Fetch real-time market data (Bybit Public REST proxy) and trigger trade stop ticks
   const fetchMarketData = useCallback(async (symbolName: string) => {
     try {
       const res = await fetch(`/api/market?symbol=${encodeURIComponent(symbolName)}`);
@@ -241,21 +246,16 @@ export default function App() {
 
   const handleStateUpdate = (updatedState: any) => {
     if (updatedState) {
-      if (updatedState.config) {
-        setConfig(updatedState.config);
+      if (updatedState.config) setConfig(updatedState.config);
+      if (updatedState.trades) setTrades(updatedState.trades);
+      if (updatedState.logs) setLogs(updatedState.logs);
+      if (updatedState.balanceHistory) setBalanceHistory(updatedState.balanceHistory);
+      if (updatedState.opportunities) setOpportunities(updatedState.opportunities);
+      if (updatedState.learningRecords) setLearningRecords(updatedState.learningRecords);
+      if (updatedState.dailyProgress) {
+        // dailyProgress is consumed by metrics calculation on the backend
       }
-      if (updatedState.trades) {
-        setTrades(updatedState.trades);
-      }
-      if (updatedState.logs) {
-        setLogs(updatedState.logs);
-      }
-      if (updatedState.balanceHistory) {
-        setBalanceHistory(updatedState.balanceHistory);
-      }
-      if (updatedState.metrics) {
-        setMetrics(updatedState.metrics);
-      }
+      if (updatedState.metrics) setMetrics(updatedState.metrics);
     }
   };
 
@@ -275,9 +275,9 @@ export default function App() {
         setConfig(data.updatedState.config);
         setLogs(data.updatedState.logs);
         setBalanceHistory(data.updatedState.balanceHistory);
-        if (data.updatedState.metrics) {
-          setMetrics(data.updatedState.metrics);
-        }
+        if (data.updatedState.opportunities) setOpportunities(data.updatedState.opportunities);
+        if (data.updatedState.learningRecords) setLearningRecords(data.updatedState.learningRecords);
+        if (data.updatedState.metrics) setMetrics(data.updatedState.metrics);
       }
     } catch (err: any) {
       console.error(err);
@@ -364,6 +364,8 @@ export default function App() {
         setTrades(data.state.trades);
         setLogs(data.state.logs);
         setBalanceHistory(data.state.balanceHistory);
+        setOpportunities(data.state.opportunities || []);
+        setLearningRecords(data.state.learningRecords || []);
         setMetrics({
           todayProfit: 0,
           weekProfit: 0,

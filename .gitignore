@@ -6,3 +6,10 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Backups automáticos (nunca commitar)
+backups/
+*.bak.*
+
+# Banco de dados local (nunca commitar — contém chaves criptografadas)
+db.json

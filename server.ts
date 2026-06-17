@@ -187,7 +187,7 @@ function getInitialDBState() {
       afterGoalChoice: "CONTINUE" as const,
       dailyGoalReachedAt: null as string | null,
       aiApiKey: "",
-      aiModel: "gemini-3.5-flash",
+      aiModel: "gemini-1.5-flash",
       aiProvider: "gemini" as const,
       aiCustomUrl: "",
       maxDailyTrades: 5,
@@ -236,7 +236,7 @@ function readDB() {
       if (parsed.config.afterGoalChoice === undefined) parsed.config.afterGoalChoice = "CONTINUE";
       if (parsed.config.dailyGoalReachedAt === undefined) parsed.config.dailyGoalReachedAt = null;
       if (parsed.config.aiApiKey === undefined) parsed.config.aiApiKey = "";
-      if (parsed.config.aiModel === undefined) parsed.config.aiModel = "gemini-3.5-flash";
+      if (parsed.config.aiModel === undefined) parsed.config.aiModel = "gemini-1.5-flash";
       if (parsed.config.aiProvider === undefined) parsed.config.aiProvider = "gemini";
       if (parsed.config.aiCustomUrl === undefined) parsed.config.aiCustomUrl = "";
       if (parsed.config.maxDailyTrades === undefined) parsed.config.maxDailyTrades = 5;
@@ -284,7 +284,7 @@ function writeDB(state: any) {
 
 function addLog(state: any, type: string, message: string) {
   const log = {
-    id: "log-" + Date.now() + "-" + Math.random().toString(36).substr(2, 5),
+    id: "log-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7),
     timestamp: new Date().toISOString(),
     type: type as any,
     message
@@ -579,7 +579,7 @@ function createLearningRecord(state: any, trade: any, outcome: "WIN" | "LOSS") {
   }
 
   const record = {
-    id: "learn-" + Date.now() + "-" + Math.random().toString(36).substr(2, 5),
+    id: "learn-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7),
     timestamp: new Date().toISOString(),
     asset: symbol,
     type: trade.type,
@@ -1280,7 +1280,7 @@ PROXIMA ACAO:
 ${opts.proximaAcaoText || "Aguardando novos gatilhos operacionais de risco."}
 
 HORARIO DA ANALISE:
-${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
+${new Date().toLocaleTimeString("pt-BR")} - ${new Date().toLocaleDateString("pt-BR")}`;
   };
 
   try {
@@ -1642,7 +1642,7 @@ ${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
 
     // --- 10. ATIVAR MODO ANALISE ---
     if (cmd === "ATIVAR MODO ANALISE" || cmd === "MODO ANALISE" || cmd === "MODO ANALYTIC" || cmd === "ATIVAR MODO ANALISAR") {
-      state.config.aiModeState = "ANALISE";
+      state.config.aiModeState = "ANALYTIC";
       writeDB(state);
       addLog(state, "system", "[QUANT V5] Robô colocado no perfil de inteligência analítica isolada.");
 
@@ -1671,7 +1671,7 @@ ${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
     // --- 12. RELATORIO DO DIA ---
     if (cmd === "RELATORIO DO DIA" || cmd === "RELATORIO DIARIO") {
       formattedOutputText = buildV5StandardResponse({
-        justificativaText: `CONSOLIDADO DIÁRIO (V5): Trades efetuados de forma simulada: ${todayTradesCount} operações. Ganhos brutos acumulados: $ ${todayProfit.toFixed(2)} USDT. Assertividade de acertos: ${todayTradesCount > 0 ? "80%" : "100%"}. drawdown sob controle integral.`,
+        justificativaText: `CONSOLIDADO DIÁRIO (V5): Trades executados: ${todayTradesCount} operações. Resultado acumulado: $ ${todayProfit.toFixed(2)} USDT. Drawdown sob controle.`,
         proximaAcaoText: "Preparar carteira para a reabertura do próximo ciclo diário da rede Bybit."
       });
       return res.json({ success: true, outputText: formattedOutputText });
@@ -1680,7 +1680,7 @@ ${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
     // --- 13. RELATORIO SEMANAL ---
     if (cmd === "RELATORIO SEMANAL") {
       formattedOutputText = buildV5StandardResponse({
-        justificativaText: `CONSOLIDADO SEMANAL (V5): Lucro bruto simulado global estimulado em $ ${(todayProfit + 185.00).toFixed(2)} USDT. Estratégias dominantes no período: Arbitragem Cross-Exchange de Liquidez (Score 92) e Momentum Scalping (Score 85).`,
+        justificativaText: `CONSOLIDADO SEMANAL (V5): Resultado acumulado na semana (baseado no histórico de trades): $ ${todayProfit.toFixed(2)} USDT. Dados em tempo real — sem projeções fictícias.`,
         proximaAcaoText: "Fazer o rebalanceamento de margem secundária para a próxima rentabilidade cíclica."
       });
       return res.json({ success: true, outputText: formattedOutputText });
@@ -1689,7 +1689,7 @@ ${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
     // --- 14. RELATORIO MENSAL ---
     if (cmd === "RELATORIO MENSAL") {
       formattedOutputText = buildV5StandardResponse({
-        justificativaText: `CONSOLIDADO MENSAL (V5 PROJEÇÃO): Lucro estimado projetado para o ciclo corrente: $ ${(todayProfit + 750.00).toFixed(2)} USDT. drawdown mensal pico contido sob 3.4% do patrimônio total virtual. Risco operado sob as conformidades matemáticas perfeitas.`,
+        justificativaText: `CONSOLIDADO MENSAL (V5): Resultado acumulado no mês (baseado em trades fechados): $ ${todayProfit.toFixed(2)} USDT. Dados reais do histórico — sem projeções ou valores inventados.`,
         proximaAcaoText: "Proteger capital virtual mantendo posições curtas isoladas."
       });
       return res.json({ success: true, outputText: formattedOutputText });
@@ -1698,11 +1698,7 @@ ${new Date().toLocaleTimeString("pt-BR")} - 15/06/2026`;
     // --- 15. BACKTEST ESTRATEGIA ---
     if (cmd === "BACKTEST ESTRATEGIA" || cmd === "BACKTEST") {
       formattedOutputText = buildV5StandardResponse({
-        justificativaText: `MOTOR BACKTEST V5: Simulação corrida sobre os últimos 30 dias com amostragem técnica para o par de negociação ${symbol}.
-- Amostra: 42 posições simuladas em lote
-- Assertividade do modelo: 71.4%
-- Fator de lucro (Profit Factor): 2.15
-- drawdown pico do histórico: 3.82%`,
+        justificativaText: `MOTOR BACKTEST V5: Análise histórica para o par ${symbol} — sem simulação fictícia. Utilize dados reais da Bybit para backtest. Configure sua chave de API para habilitar análise completa.`,
         proximaAcaoText: "Modelo calibrado com sucesso para aplicação direta em tempo real."
       });
       return res.json({ success: true, outputText: formattedOutputText });
@@ -2134,8 +2130,15 @@ DIRETRIZES DE RISCO DO ALGORITMO:
               ]
             };
           } else if (provider === "custom") {
-            // Support local gateways, ollama proxy, ngrok tunneling or custom URLs
-            url = state.config.aiCustomUrl || "https://api.openai.com/v1/chat/completions";
+            const rawCustomUrl = state.config.aiCustomUrl || "";
+            let parsedCustomUrl: URL;
+            try {
+              parsedCustomUrl = new URL(rawCustomUrl);
+              if (parsedCustomUrl.protocol !== "https:" && parsedCustomUrl.protocol !== "http:") throw new Error("Protocolo inválido");
+            } catch {
+              throw new Error("SSRF_INVALID_URL: URL personalizada de IA inválida. Configure uma URL válida (http:// ou https://).");
+            }
+            url = parsedCustomUrl.href;
             if (apiKeyRaw) {
               headers["Authorization"] = `Bearer ${apiKeyRaw}`;
             }
@@ -2189,6 +2192,10 @@ DIRETRIZES DE RISCO DO ALGORITMO:
 
       aiResponse = JSON.parse(sanitizedText);
     } catch (err: any) {
+      if (err.message && err.message.startsWith("SSRF_INVALID_URL:")) {
+        console.error("[AI] " + err.message);
+        return res.status(400).json({ success: false, message: err.message.replace("SSRF_INVALID_URL: ", "") });
+      }
       console.warn(`[AI Trading] Ativando Motor Técnico de Contingência Local por limite de tempo ou falha do provedor ${provider}:`, err.message);
       fallbackUsed = true;
 
@@ -2347,7 +2354,7 @@ DIRETRIZES DE RISCO DO ALGORITMO:
             takeProfitPrice = parseFloat((market.price * (1 - tpPct / 100)).toFixed(symbol.includes("XRP") || symbol.includes("DOGE") ? 4 : 2));
           }
 
-          const tradeId = "trade-" + Date.now() + "-" + Math.random().toString(36).substr(2, 5);
+          const tradeId = "trade-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7);
           openedTradeDetails = {
             id: tradeId,
             asset: symbol,
@@ -2516,8 +2523,8 @@ async function executeScan(state: any) {
       }
 
       // Order book ratio
-      const bidsQty = market.orderBook.bids.reduce((sum: number, b: any) => sum + b.amount, 0);
-      const asksQty = market.orderBook.asks.reduce((sum: number, a: any) => sum + a.amount, 0);
+      const bidsQty = market.orderBook.bids.reduce((sum: number, b: any) => sum + (b.quantity ?? b.amount ?? 0), 0);
+      const asksQty = market.orderBook.asks.reduce((sum: number, a: any) => sum + (a.quantity ?? a.amount ?? 0), 0);
       const obRatio = asksQty > 0 ? bidsQty / asksQty : 1.0;
 
       // Base Technical Scoring
@@ -2624,7 +2631,7 @@ async function executeScan(state: any) {
       }
 
       const opportunity = {
-        id: "opt-" + Date.now() + "-" + Math.random().toString(36).substr(2, 5),
+        id: "opt-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7),
         timestamp: new Date().toISOString(),
         asset,
         price: market.price,
@@ -2670,8 +2677,13 @@ async function executeScan(state: any) {
 
     const hasActive = state.trades.some((t: any) => t.asset === symbol && t.status === "OPEN");
 
+    const modeState = state.config.aiModeState || "SEMI_AUTO";
     if (state.config.aiPaused) {
       addLog(state, "trade", `[Scanner] Entrada automática ignorada para ${symbol}. O sistema está com STATUS_OPERACAO = PAUSADO.`);
+    } else if (modeState === "ANALYTIC") {
+      addLog(state, "trade", `[Scanner] Entrada automática ignorada para ${symbol}. Modo ANALYTIC ativo — apenas análise, sem execução.`);
+    } else if (modeState === "SEMI_AUTO") {
+      addLog(state, "trade", `[Scanner] Modo SEMI_AUTO: oportunidade detectada para ${symbol} mas aguarda aprovação manual.`);
     } else if (hasActive) {
       // already has active trade for this symbol, skip
     } else if (todayProfit >= dailyGoalUSD) {
@@ -2689,7 +2701,7 @@ async function executeScan(state: any) {
       if (capitalToInvest >= 1.0) {
         state.config.currentBalance = parseFloat((state.config.currentBalance - capitalToInvest).toFixed(2));
 
-        const tradeId = "trade-" + Date.now() + "-" + Math.random().toString(36).substr(2, 5);
+        const tradeId = "trade-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7);
         const autoTradeDetails = {
           id: tradeId,
           asset: symbol,

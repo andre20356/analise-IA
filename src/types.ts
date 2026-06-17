@@ -34,6 +34,8 @@ export interface UserConfig {
   aiPaused?: boolean;
   aiModeState?: 'ANALYTIC' | 'SEMI_AUTO' | 'AUTO';
   realExchangeBalance?: number | null;
+  maxDrawdownDiario?: number;
+  maxDrawdownGlobal?: number;
 }
 
 export interface Candle {

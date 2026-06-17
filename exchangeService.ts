@@ -213,20 +213,15 @@ export class ExchangeService {
   }
 
   /**
-    * Specifically fetches the real balance from Bybit if credentials are configured.
-    * If they are missing or the request fails, returns null or simulated balance.
-    */
-  static async fetchRealBalance(): Promise<{ balance: number; currency: string } | null> {
-    const { apiKey, secretKey, config } = getSavedCredentials();
-    
-    // Fallback to high fidelity simulation if connected in simulated/valid mode but keys aren't entered
+   * Busca o saldo real da Bybit usando as credenciais configuradas.
+   * Tenta UNIFIED, CONTRACT e FUND em sequência.
+   * Retorna null em qualquer falha — nunca retorna valores fictícios.
+   */
+  static async fetchRealBalance(): Promise<{ balance: number; currency: string; isReal: boolean } | null> {
+    const { apiKey, secretKey } = getSavedCredentials();
+
     if (!apiKey || !secretKey) {
-      if (config?.connectedStatus === "Conectado" || config?.connectedStatus === "Conectado (Simulado)") {
-        return {
-          balance: 12540.85,
-          currency: "USDT"
-        };
-      }
+      console.warn("[ExchangeService] fetchRealBalance: chaves de API não configuradas — saldo real indisponível.");
       return null;
     }
 
@@ -234,63 +229,40 @@ export class ExchangeService {
       await syncClockOffset();
 
       let balance = await queryBybitBalance(apiKey, secretKey, "UNIFIED");
-      
+
       if (balance === -451) {
-        return {
-          balance: 12540.85,
-          currency: "USDT"
-        };
+        console.error("[ExchangeService] fetchRealBalance: restrição geográfica (451) em UNIFIED.");
+        return null;
       }
 
       if (balance === null || balance === 0) {
         const contractBal = await queryBybitBalance(apiKey, secretKey, "CONTRACT");
         if (contractBal === -451) {
-          return {
-            balance: 12540.85,
-            currency: "USDT"
-          };
+          console.error("[ExchangeService] fetchRealBalance: restrição geográfica (451) em CONTRACT.");
+          return null;
         }
-        if (contractBal !== null && contractBal > 0) {
-          balance = contractBal;
-        }
+        if (contractBal !== null && contractBal > 0) balance = contractBal;
       }
 
       if (balance === null || balance === 0) {
         const fundBal = await queryBybitBalance(apiKey, secretKey, "FUND");
         if (fundBal === -451) {
-          return {
-            balance: 12540.85,
-            currency: "USDT"
-          };
+          console.error("[ExchangeService] fetchRealBalance: restrição geográfica (451) em FUND.");
+          return null;
         }
-        if (fundBal !== null && fundBal > 0) {
-          balance = fundBal;
-        }
+        if (fundBal !== null && fundBal > 0) balance = fundBal;
       }
 
-      if (balance !== null && balance >= 0) {
-        return {
-          balance: parseFloat(balance.toFixed(2)),
-          currency: "USDT"
-        };
+      if (balance !== null && balance > 0) {
+        return { balance: parseFloat(balance.toFixed(2)), currency: "USDT", isReal: true };
       }
 
-      if (config?.connectedStatus === "Conectado (Simulado)") {
-        return {
-          balance: 12540.85,
-          currency: "USDT"
-        };
-      }
+      console.warn("[ExchangeService] fetchRealBalance: saldo zero ou inválido retornado pela Bybit.");
+      return null;
     } catch (err: any) {
       console.error("[ExchangeService] fetchRealBalance error:", err.message);
-      if (config?.connectedStatus === "Conectado (Simulado)") {
-        return {
-          balance: 12540.85,
-          currency: "USDT"
-        };
-      }
+      return null;
     }
-    return null;
   }
 
   /**
